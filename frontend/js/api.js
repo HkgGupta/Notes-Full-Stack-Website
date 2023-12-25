@@ -43,6 +43,20 @@ async function fetchNotes(token) {
     }
 }
 
+async function fetchDetails(token) {
+    try {
+        const response = await fetch(`${apiUrl}/details`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch Details Error:', error);
+        throw error;
+    }
+}
+
 async function createNote(formData, token) {
     try {
         const response = await fetch(`${apiUrl}/new-note`, {
@@ -60,4 +74,4 @@ async function createNote(formData, token) {
     }
 }
 
-export { register, login, fetchNotes, createNote };
+export { register, login, fetchNotes, fetchDetails, createNote };

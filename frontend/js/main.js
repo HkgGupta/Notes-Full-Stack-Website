@@ -1,11 +1,9 @@
 // main.js
-import { register, login, fetchNotes, createNote } from './api.js';
+import { register, login, fetchNotes, fetchDetails, createNote } from './api.js';
 import { setToken, getToken } from './auth.js';
-import { displayMessage, createCard } from './ui.js';
+import { createCard, formatDate } from './ui.js';
 
 const apiUrl = 'http://localhost:3000/user';
-console.log(apiUrl);
-
 
 export const registerUser = async () => {
     const formData = new FormData(document.getElementById('registrationForm'));
@@ -18,7 +16,6 @@ export const registerUser = async () => {
         const modalFooterLink = document.querySelector('#bootstrapModel .modal-footer a');
 
         if (data.success_message) {
-            displayMessage(data.success_message, 'green');
             // Bootstrap Modal
             // Change modal body content
             modalBody.innerHTML = `<img src="../image/tick.png" width="100" alt="Success">` +
@@ -27,12 +24,20 @@ export const registerUser = async () => {
             modalFooterLink.href = '../html/login.html';
             modalFooterLink.textContent = 'Login';
             reg_modal.show();
-        } else {
-            displayMessage(data.error_message, 'red');
+        } else if (data.error_message == "User already exists") {
             // Bootstrap Modal
             // Change modal body content
             modalBody.innerHTML = `<img src="../image/cross.png" width="100" alt="Success">` +
                 `<h5 class="mt-3">${data.error_message}</h5>`;
+            // Change modal footer link
+            modalFooterLink.href = '../html/login.html';
+            modalFooterLink.textContent = 'Login';
+            bootstrapModel.show();
+        } else {
+            // Bootstrap Modal
+            // Change modal body content
+            modalBody.innerHTML = `<img src="../image/cross.png" width="100" alt="Success">` +
+                `<h5 class="mt-3">Something is missing!</h5>`;
             // Change modal footer link
             modalFooterLink.href = '../html/registration.html';
             modalFooterLink.textContent = 'Retry';
@@ -57,7 +62,6 @@ export const loginUser = async () => {
         if (data.success_message) {
 
             setToken(data.token);
-            displayMessage(data.success_message, 'green');
 
             // window.location.href = 'notes.html';
 
@@ -70,7 +74,6 @@ export const loginUser = async () => {
             modalFooterLink.textContent = 'See Notes';
             bootstrapModel.show();
         } else {
-            displayMessage(data.error_message, 'red');
             // Bootstrap Modal
             // Change modal body content
             modalBody.innerHTML = `<img src="../image/cross.png" width="100" alt="Failed">` +
@@ -81,10 +84,16 @@ export const loginUser = async () => {
             bootstrapModel.show();
         }
 
-        console.log(data.token);
     } catch (error) {
         console.error('Login Error:', error.message);
-        displayMessage('Login failed. Please try again.', 'red');
+        // Bootstrap Modal
+        // Change modal body content
+        modalBody.innerHTML = `<img src="../image/cross.png" width="100" alt="Failed">` +
+            `<h5 class="mt-3">Login Error</h5>`;
+        // Change modal footer link
+        modalFooterLink.href = '../html/login.html';
+        modalFooterLink.textContent = 'Retry';
+        bootstrapModel.show();
     }
 };
 
@@ -93,17 +102,27 @@ export const fetchAndDisplayNotes = async () => {
         const token = getToken();
 
         const data = await fetchNotes(token);
+        const userDetails = await fetchDetails(token);
 
-        if (data.error_message) {
+        if (data && Array.isArray(data) && data.length === 0) {
+            console.log("No notes added yet.");
+        }
+
+        if (data.error_message || userDetails.error_message) {
             localStorage.removeItem('user');
             fetchAndDisplayNotes();
         }
 
+        const photo = userDetails.success_message.photo;
+        document.getElementById('profile-image').src = "data:" + photo[0].mimetype + ";base64," + photo[0].data;
+
         data.notes.forEach(note => {
-            createCard(note.title, note.desc, note.date);
+            const noteDate = formatDate(note.date);
+            createCard(note.title, note.desc, noteDate);
         });
     } catch (error) {
         console.error('Fetch Notes Error:', error);
+
     }
 };
 
@@ -126,12 +145,7 @@ export const fetchUserDetails = async () => {
     try {
 
         const token = getToken();
-        const response = await fetch(`${apiUrl}/details`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await response.json();
+        const data = await fetchDetails(token);
 
         const bootstrapModel = new bootstrap.Modal(document.getElementById('bootstrapModel'));
         const modalBody = document.querySelector('#bootstrapModel .modal-body');
@@ -140,7 +154,7 @@ export const fetchUserDetails = async () => {
         if (data.error_message) {
             // Bootstrap Modal
             // Change modal body content
-            modalBody.innerHTML = `<img src="../image/cross.png" width="100" alt="Error">` +
+            modalBody.innerHTML = `<img src="../image/cross.png" width="100" height="100" alt="Error">` +
                 `<h5 class="mt-3">User Not Found</h5>`;
             localStorage.removeItem('user');
             // Change modal footer link
@@ -160,14 +174,12 @@ export const fetchUserDetails = async () => {
             let updatedAt = new Date(data.success_message.updatedAt);
             updatedAt = updatedAt.toLocaleString('en-IN');
 
-
             document.getElementById('name').value = name;
             document.getElementById('email').value = email;
             document.getElementById('phone').value = phone;
             document.getElementById('profile-name').innerHTML = name;
             document.getElementById('createdAt').innerHTML = "Account Created: " + createdAt;
             document.getElementById('updatedAt').innerHTML = "Last Updated: " + updatedAt;
-
             document.getElementById('profile-image').src = "data:" + photo[0].mimetype + ";base64," + photo[0].data;
         }
     } catch (error) {

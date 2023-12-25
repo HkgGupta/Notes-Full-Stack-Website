@@ -8,6 +8,23 @@
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/styles.css">
     <title>User Notes</title>
+    <style>
+        #profile-image {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        #new-note {
+            cursor: pointer;
+        }
+
+        #new-note:hover {
+            background-color: rgb(231, 228, 228);
+        }
+
+        #new-note-image {
+            filter: opacity(80%);
+        }
+    </style>
 </head>
 
 <body>
@@ -15,8 +32,8 @@
         <div class="user-profile dropdown text-right">
             <a style="display: inline-block;  padding: 0.375rem 0.75rem;" class="text-decoration-none dropdown-toggle"
                 href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                <img src="https://yt3.ggpht.com/ytc/AKedOLTW5KPeJBfQgQQ2jSdhO-Lwarx3U3JWYzVx6j9aS_o=s900-c-k-c0x00ffffff-no-rj"
-                    class="img-fluid rounded-circle" style="width: 3.5rem;" tabindex="0">
+                <img id="profile-image" src="../image/user.jpg" class="rounded-circle" width="40" height="40"
+                    tabindex="0">
             </a>
 
             <div class="profile-menu dropdown-menu dropdown-menu-lg-right">
@@ -25,36 +42,43 @@
             </div>
         </div>
         <h2 class="text-center p-2 mb-3 bg-primary text-white rounded">User Notes</h2>
-        <button id="new-notes" class="btn btn-primary">New Note</button>
         <button id="refresh-notes" class="btn btn-primary float-right">Refresh</button>
 
 
         <div class="row mt-3" id="notesContainer">
 
             <div class="col-lg-4 col-md-6 col-12 mb-4">
-                <div class="card h-100 d-flex flex-column">
-                    <div class="card-body d-flex flex-column">
-                        <h3 class="card-title">Lorem, ipsum</h3>
-                        <p class="card-text flex-grow-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos
-                            ipsum sunt incidunt eveniet at molestias?</p>
-                        <p class="card-text"><small class="text-muted">12/12/2023</small></p>
+                <div id="new-note" class="card h-100">
+                    <div class="card-body">
+                        <center>
+                            <img id="new-note-image" src="../image/add.png" width="100" alt="">
+                        </center>
+                        <center>
+                            <b>Add New Notes</b>
+                        </center>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script type="module" src="../js/main.js"></script>
+
     <script type="module">
+
         import { fetchAndDisplayNotes } from '../js/main.js';
         window.onload = function () {
             fetchAndDisplayNotes();
         };
+
         document.getElementById('refresh-notes').addEventListener('click', () => {
             location.reload();
         });
-        document.getElementById('new-notes').addEventListener('click', () => {
+
+        document.getElementById('new-note').addEventListener('click', () => {
             window.location.href = './new-note.html';
         });
+
+
         document.getElementById('logout').addEventListener('click', () => {
             // Check if the 'user' item exists in localStorage
             if (localStorage.getItem('user')) {

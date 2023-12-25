@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Notes | Profile</title>
+    <style>
+        #profile-image {
+            /* aspect-ratio: 1/1; */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+        }
+    </style>
 </head>
 
 <body style="background-color: #f8f9fa;">
@@ -17,9 +23,8 @@
         <div class="row">
             <div class="col-md-4 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img id="profile-image" class="rounded-circle mt-5 mb-2"
-                        src="https://yt3.ggpht.com/ytc/AKedOLTW5KPeJBfQgQQ2jSdhO-Lwarx3U3JWYzVx6j9aS_o=s900-c-k-c0x00ffffff-no-rj"
-                        width="90">
+                    <img id="profile-image" class="rounded-circle mt-5 mb-2" src="../image/user.jpg" width="100"
+                        height="100">
                     <span id="profile-name" class="font-weight-bold">Name...</span>
                     <span class="card-text"><small id="createdAt" class="text-muted">date...</small></span>
                     <span class="card-text"><small id="updatedAt" class="text-muted">date...</small></span>
@@ -31,7 +36,7 @@
                         <a href="./notes.html" class="text-decoration-none">
                             <div class="d-flex flex-row align-items-center">
                                 <i class="fa fa-long-arrow-left mr-2 mb-1"></i>
-                                <h6>Back to home</h6>
+                                <h6>Back to notes</h6>
                             </div>
                         </a>
                         <h6 class="text-right">Edit Profile</h6>
