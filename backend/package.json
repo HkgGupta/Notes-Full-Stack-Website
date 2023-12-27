@@ -1,12 +1,13 @@
 {
-  "name": "9-todolist",
+  "name": "Notes-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build":"npm i"
   },
   "keywords": [],
   "author": "",
