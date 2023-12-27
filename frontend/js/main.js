@@ -3,7 +3,7 @@ import { register, login, fetchNotes, fetchDetails, createNote } from './api.js'
 import { setToken, getToken } from './auth.js';
 import { createCard, formatDate } from './ui.js';
 
-const apiUrl = 'http://localhost:3000/user';
+const apiUrl = 'https://notes-app-backend-xt2o.onrender.com/user';
 
 export const registerUser = async () => {
     const formData = new FormData(document.getElementById('registrationForm'));

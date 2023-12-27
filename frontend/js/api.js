@@ -1,5 +1,6 @@
 // api.js
-const apiUrl = 'http://localhost:3000/user';
+//const apiUrl = 'http://localhost:3000/user';
+const apiUrl = 'https://notes-app-backend-xt2o.onrender.com/user';
 
 async function register(formData) {
     try {
