@@ -46,6 +46,14 @@ export const registerUser = async () => {
 
         console.log(data);
     } catch (error) {
+        // Bootstrap Modal
+        // Change modal body content
+        modalBody.innerHTML = `<img src="../image/cross.png" width="100" alt="Success">` +
+            `<h5 class="mt-3">Something Went Wrong</h5>`;
+        // Change modal footer link
+        modalFooterLink.href = '../html/registration.html';
+        modalFooterLink.textContent = 'Retry';
+        bootstrapModel.show();
         console.error('Registration Error:', error);
     }
 };
@@ -110,7 +118,7 @@ export const fetchAndDisplayNotes = async () => {
 
         if (data.error_message || userDetails.error_message) {
             localStorage.removeItem('user');
-            fetchAndDisplayNotes();
+            window.location.href = "../html/login.html";
         }
 
         const photo = userDetails.success_message.photo;
@@ -133,8 +141,34 @@ export const createNewNote = async () => {
         const token = getToken();
 
         const data = await createNote(formData, token);
+        const bootstrapModel = new bootstrap.Modal(document.getElementById('bootstrapModel'));
+        const modalBody = document.querySelector('#bootstrapModel .modal-body');
+        const modalFooterLink = document.querySelector('#bootstrapModel .modal-footer a');
 
-        console.log(data.success_message);
+        if (data.error_message) {
+            // Bootstrap Modal
+            // Change modal body content
+            modalBody.innerHTML = `<img src="../image/cross.png" width="100" height="100" alt="Error">` +
+                `<h5 class="mt-3">Failed to add New Note</h5>`;
+            // Remove user
+            localStorage.removeItem('user');
+            // Change modal footer link
+            modalFooterLink.href = '../html/new-note.html';
+            modalFooterLink.textContent = 'Relogin';
+            bootstrapModel.show();
+        }
+
+        if (data.success_message) {
+            // Bootstrap Modal
+            // Change modal body content
+            modalBody.innerHTML = `<img src="../image/tick.png" width="100" height="100" alt="Done">` +
+                `<h5 class="mt-3">New Note Added</h5>`;
+            // Change modal footer link
+            modalFooterLink.href = '../html/notes.html';
+            modalFooterLink.textContent = 'View Notes';
+            bootstrapModel.show();
+        }
+
     } catch (error) {
         console.error('Create Note Error:', error);
     }

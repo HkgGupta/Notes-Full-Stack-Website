@@ -9,8 +9,8 @@ userRoute.get("/details", userCheckAuth, userDetails);
 userRoute.post("/register", userRegister);
 userRoute.post("/login", userLogin);
 userRoute.get("/notes", userCheckAuth, getAllNote);
-userRoute.post("/notes/new", userCheckAuth, newNote);
-userRoute.put("/notes/update", userCheckAuth, updateNote);
-userRoute.delete("/notes/delete/:noteId", userCheckAuth, deleteNote);
+userRoute.post("/new-note", userCheckAuth, newNote);
+userRoute.put("/note-update", userCheckAuth, updateNote);
+userRoute.delete("/note-delete/:noteId", userCheckAuth, deleteNote);
 
 export default userRoute;
