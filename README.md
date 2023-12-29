@@ -1,5 +1,5 @@
 # Frontend + Backend + Database
-  PREVIEW 1 : https://658c065a818c424a85285da9--incandescent-moonbeam-3b7cef.netlify.app
+  PREVIEW 1 : https://incandescent-moonbeam-3b7cef.netlify.app  
   PREVIEW 2 : https://hkggupta.github.io/note-app
 
 # Notes-Full-Stack-Website
