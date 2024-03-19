@@ -3,7 +3,7 @@ Just learning, First Project having Frontend + Backend + Database
 # Notes-Full-Stack-Website
  Notes Website - Frontend, Backend & Database
 ## Frontend + Backend + Database
-  LIVE PREVIEW 1 : https://notes-full-stack.netlify.app
+  LIVE PREVIEW 1 : https://notes-full-stack.netlify.app  
   LIVE PREVIEW 2 : https://hkggupta.github.io/note-app
 ## Frontend: 
   HTML, CSS, JS
